@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+<h1>🧠 SupportPilot AI Learning Center</h1>
+
+<p>
+Review, approve, and manage AI learning safely.
+</p>
+
+</head>
+
+<body>
+
+<h1>🧠 AI Learning Review</h1>
+<div>
+
+<h3>Total Examples</h3>
+<p>
+{{ learning_analytics.total_examples }}
+</p>
+
+
+<h3>Approved</h3>
+<p>
+{{ learning_analytics.approved_examples }}
+</p>
+
+
+<h3>Rejected</h3>
+<p>
+{{ learning_analytics.rejected_examples }}
+</p>
+
+
+<h3>Pending</h3>
+<p>
+{{ learning_analytics.pending_examples }}
+</p>
+
+</div>
+<h2>📦 Learning Versions</h2>
+
+<table border="1">
+
+<tr>
+
+<th>ID</th>
+<th>Version</th>
+<th>Company</th>
+<th>Status</th>
+<th>Created By</th>
+<th>Created At</th>
+
+</tr>
+
+
+{% for version in learning_versions %}
+
+<tr>
+
+<td>
+{{ version.id }}
+</td>
+
+
+<td>
+{{ version.version_name }}
+</td>
+
+
+<td>
+{{ version.company_id }}
+</td>
+
+
+<td>
+{{ version.status }}
+</td>
+
+
+<td>
+{{ version.created_by }}
+</td>
+
+
+<td>
+{{ version.created_at }}
+</td>
+
+
+</tr>
+
+{% endfor %}
+
+</table>
+
+
+<table border="1">
+
+<tr>
+
+<th>ID</th>
+<th>Customer Message</th>
+<th>Original AI Reply</th>
+<th>Approved Reply</th>
+<th>Intent</th>
+<th>Company</th>
+<th>Status</th>
+<th>Action</th>
+
+</tr>
+
+
+{% for item in learning_examples %}
+
+<tr>
+
+<td>
+{{ item.id }}
+</td>
+
+
+<td>
+{{ item.customer_message }}
+</td>
+
+
+<td>
+{{ item.original_ai_reply }}
+</td>
+
+
+<td>
+{{ item.approved_reply }}
+</td>
+
+
+<td>
+{{ item.intent }}
+</td>
+
+
+<td>
+{{ item.company_id }}
+</td>
+
+
+<td>
+{{ item.review_status }}
+</td>
+<td>
+
+{% if item.review_status == "Pending" %}
+
+<form method="POST" action="/approve-learning/{{item.id}}">
+
+<button type="submit">
+✅ Approve
+</button>
+
+</form>
+
+
+<form method="POST" action="/reject-learning/{{item.id}}">
+
+<button type="submit">
+❌ Reject
+</button>
+
+</form>
+
+{% endif %}
+
+</td>
+
+
+</tr>
+
+
+{% endfor %}
+
+
+</table>
+
+
+</body>
+
+</html>

@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+<title>SupportPilot AI Dashboard</title>
+
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+</head>
+
+
+<body>
+
+
+<div class="container">
+
+
+<h1>🚀 SupportPilot AI Dashboard</h1>
+
+<p>
+AI-powered customer support platform for modern businesses.
+</p>
+
+
+
+<!-- Dashboard Cards -->
+
+<div class="cards">
+
+    <div class="card">
+        <h3>👥 Total Customers</h3>
+        <h2>{{ total_customers }}</h2>
+    </div>
+
+    <div class="card">
+        <h3>🔥 High Priority</h3>
+        <h2>{{ high_priority }}</h2>
+    </div>
+
+    <div class="card">
+        <h3>😠 Negative Sentiment</h3>
+        <h2>{{ negative_sentiment }}</h2>
+    </div>
+
+    <div class="card">
+        <h3>✅ Completed Tickets</h3>
+        <h2>{{ completed_cases }}</h2>
+    </div>
+
+    <div class="card">
+        <h3>🤖 AI Solved</h3>
+        <h2>{{ ai_solved_cases }}</h2>
+        <small>{{ ai_solved_percentage }}%</small>
+    </div>
+
+    <div class="card">
+        <h3>👨‍💼 Waiting Review</h3>
+        <h2>{{ human_review_cases }}</h2>
+        <small>{{ human_review_percentage }}%</small>
+    </div>
+
+    <div class="card">
+        <h3>🚨 Escalations</h3>
+        <h2>{{ escalation_cases }}</h2>
+        <small>{{ escalation_percentage }}%</small>
+    </div>
+
+    <div class="card">
+        <h3>⚠️ High Risk</h3>
+        <h2>{{ high_risk_cases }}</h2>
+    </div>
+
+    <div class="card">
+        <h3>🎯 Avg Confidence</h3>
+        <h2>{{ average_confidence }}%</h2>
+    </div>
+
+</div>
+
+
+
+
+<!-- Search -->
+
+
+<form method="POST" class="search-box">
+
+
+<input
+
+type="text"
+
+name="keyword"
+
+placeholder="Search customer name or email">
+
+
+<button type="submit">
+
+Search
+
+</button>
+
+
+</form>
+
+
+
+
+
+
+<!-- Charts -->
+
+
+<div class="charts">
+
+
+<div class="chart-box">
+
+<h2>Priority Analysis</h2>
+
+<canvas id="priorityChart"></canvas>
+
+</div>
+
+
+
+<div class="chart-box">
+
+<h2>Sentiment Analysis</h2>
+
+<canvas id="sentimentChart"></canvas>
+
+</div>
+
+
+
+<div class="chart-box">
+
+<h2>Department Analysis</h2>
+
+<canvas id="departmentChart"></canvas>
+
+</div>
+
+
+</div>
+
+
+
+
+
+
+
+<h2>Customer Tickets</h2>
+
+
+
+<table>
+
+
+<tr>
+
+<th>Name</th>
+<th>Email</th>
+<th>Message</th>
+<th>Intent</th>
+<th>Department</th>
+<th>Priority</th>
+<th>Risk</th>
+<th>Escalation</th>
+<th>Status</th>
+<th>Agent</th>
+<th>Action</th>
+
+</tr>
+
+
+
+
+{% for customer in customers %}
+
+
+<tr>
+
+
+<td>
+{{ customer.customer_name }}
+</td>
+
+
+<td>
+{{ customer.email }}
+</td>
+
+
+<td>
+{{ customer.message }}
+</td>
+
+
+<td>
+{{ customer.intent }}
+</td>
+
+
+<td>
+{{ customer.department }}
+</td>
+
+
+
+
+<td>
+
+{{ customer.priority }}
+
+</td>
+
+
+
+<td>
+
+{{ customer.risk_level }}
+
+</td>
+
+
+
+
+<td>
+
+{% if customer.escalation == "Yes" %}
+
+🚨 Yes
+
+{% else %}
+
+No
+
+{% endif %}
+
+</td>
+
+
+
+
+<td>
+
+{{ customer.status }}
+
+</td>
+
+
+
+
+<td>
+
+{{ customer.assigned_agent or "Not Assigned" }}
+
+</td>
+
+
+
+
+<td>
+
+
+<a href="/ticket/{{customer.id}}">
+👁 View
+</a>
+
+<br>
+
+
+<a href="/edit/{{customer.id}}">
+✏️ Edit
+</a>
+
+
+<br>
+
+{% if customer.status == "Waiting Review" %}
+
+<a href="/edit_reply/{{customer.id}}">
+<button>
+✏️ Edit Reply
+</button>
+</a>
+
+{% endif %}
+
+
+{% if customer.status == "Waiting Review" %}
+
+<form method="POST" action="/approve/{{customer.id}}">
+
+<button type="submit">
+
+✅ Approve & Send Reply
+
+</button>
+
+</form>
+
+{% endif %}
+
+<button type="submit">
+🗑 Delete
+</button>
+
+</form>
+
+
+</td>
+
+
+
+</tr>
+
+
+{% endfor %}
+
+
+
+</table>
+
+
+
+
+
+</div>
+
+
+
+
+
+
+
+
+<script>
+
+
+new Chart(
+
+document.getElementById("priorityChart"),
+
+{
+
+type:"bar",
+
+data:{
+
+labels:[
+
+"High",
+"Medium",
+"Low"
+
+],
+
+datasets:[{
+
+label:"Tickets",
+
+data:[
+
+{{ priority_data["High"] }},
+
+{{ priority_data["Medium"] }},
+
+{{ priority_data["Low"] }}
+
+]
+
+}]
+
+}
+
+}
+
+);
+
+
+
+
+
+
+new Chart(
+
+document.getElementById("sentimentChart"),
+
+{
+
+type:"pie",
+
+data:{
+
+labels:[
+
+"Positive",
+"Neutral",
+"Negative"
+
+],
+
+datasets:[{
+
+data:[
+
+{{ sentiment_data["Positive"] }},
+
+{{ sentiment_data["Neutral"] }},
+
+{{ sentiment_data["Negative"] }}
+
+]
+
+}]
+
+}
+
+}
+
+);
+
+
+
+
+
+
+
+new Chart(
+
+document.getElementById("departmentChart"),
+
+{
+
+type:"doughnut",
+
+data:{
+
+labels:[
+
+{% for department in department_data.keys() %}
+
+"{{ department }}",
+
+{% endfor %}
+
+],
+
+
+datasets:[{
+
+data:[
+
+{% for value in department_data.values() %}
+
+{{ value }},
+
+{% endfor %}
+
+]
+
+}]
+
+}
+
+}
+
+);
+
+
+
+</script>
+
+
+
+
+</body>
+
+</html>

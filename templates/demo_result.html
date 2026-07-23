@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <title>SupportPilot AI Result</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+
+</head>
+
+<body>
+
+<div class="demo-container">
+
+    <h1>🤖 SupportPilot AI Analysis Result</h1>
+
+    <div class="preview-card">
+
+        <h3>👤 Customer Message</h3>
+
+        <p>{{ customer.message }}</p>
+
+    </div>
+
+
+    <div class="preview-card">
+
+        <h3>🤖 AI Reply</h3>
+
+        <p>{{ customer.ai_reply }}</p>
+
+    </div>
+
+
+    <div class="preview-card">
+
+    <h3>🧠 AI Analysis</h3>
+
+    <div class="analysis-grid">
+
+        <div class="analysis-item">
+            <span>🎯 Intent</span>
+            <strong>{{ customer.intent }}</strong>
+        </div>
+
+        <div class="analysis-item">
+            <span>😊 Sentiment</span>
+            <strong>{{ customer.sentiment }}</strong>
+        </div>
+
+        <div class="analysis-item">
+            <span>🔥 Priority</span>
+            <strong>{{ customer.priority }}</strong>
+        </div>
+
+        <div class="analysis-item">
+            <span>📊 Confidence</span>
+            <strong>{{ customer.confidence_score }}%</strong>
+        </div>
+
+        <div class="analysis-item">
+            <span>⚠️ Risk Level</span>
+            <strong>{{ customer.risk_level }}</strong>
+        </div>
+
+        <div class="analysis-item">
+            <span>🏢 Department</span>
+            <strong>{{ customer.department }}</strong>
+        </div>
+
+    </div>
+
+    <hr>
+
+    <h4>📌 Recommended Action</h4>
+
+    <p>{{ customer.recommended_action }}</p>
+
+</div>
+
+    <br>
+
+    <a href="/demo" class="cta-btn">
+        Try Another Message
+    </a>
+
+</div>
+
+</body>
+
+</html>

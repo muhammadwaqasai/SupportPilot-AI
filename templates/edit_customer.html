@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+<title>Edit Customer Ticket</title>
+
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+</head>
+
+
+<body>
+
+
+<div class="container">
+
+
+<h1>✏️ Edit Customer Ticket</h1>
+
+
+
+<form method="POST">
+
+
+
+<label>
+Customer Name
+</label>
+
+<input 
+type="text"
+name="customer_name"
+value="{{ customer.customer_name }}"
+required>
+
+
+
+<label>
+Email
+</label>
+
+<input 
+type="email"
+name="email"
+value="{{ customer.email }}"
+required>
+
+
+
+<label>
+Customer Message
+</label>
+
+<textarea
+name="message"
+rows="5">{{ customer.message }}</textarea>
+
+
+
+
+<label>
+Ticket Status
+</label>
+
+
+<select name="status">
+
+
+<option value="New"
+{% if customer.status=="New" %}selected{% endif %}>
+New
+</option>
+
+
+<option value="In Progress"
+{% if customer.status=="In Progress" %}selected{% endif %}>
+In Progress
+</option>
+
+
+<option value="Resolved"
+{% if customer.status=="Resolved" %}selected{% endif %}>
+Resolved
+</option>
+
+
+<option value="Closed"
+{% if customer.status=="Closed" %}selected{% endif %}>
+Closed
+</option>
+
+
+</select>
+
+
+
+
+
+<label>
+Assigned Agent
+</label>
+
+
+<input
+
+type="text"
+
+name="assigned_agent"
+
+value="{{ customer.assigned_agent or '' }}"
+
+placeholder="Enter agent name">
+
+
+
+
+
+<label>
+Agent Note
+</label>
+
+
+<textarea
+
+name="agent_note"
+
+rows="5"
+
+placeholder="Write internal notes here...">{{ customer.agent_note or '' }}</textarea>
+
+
+
+
+
+<button type="submit">
+
+Update Ticket
+
+</button>
+
+
+
+</form>
+
+
+
+<br>
+
+
+<a href="/admin">
+
+⬅ Back to Dashboard
+
+</a>
+
+
+
+</div>
+
+
+</body>
+
+</html>

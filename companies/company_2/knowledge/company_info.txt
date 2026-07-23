@@ -1,0 +1,10 @@
+Company 2 is an online electronics store.
+
+Refund policy:
+Refunds are allowed within 15 days.
+
+Shipping:
+Delivery takes 3 business days.
+
+Support email:
+support@company2.com

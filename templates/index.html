@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>SupportPilot AI Demo</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+
+</head>
+
+<body>
+
+<div class="demo-page">
+
+    <!-- LEFT SIDE -->
+
+    <div class="left-panel">
+
+        <div class="demo-header">
+
+            <h1>🤖 SupportPilot AI Demo</h1>
+
+            <p>
+                Experience AI-powered customer support in real time.
+                Enter a customer message below and let SupportPilot AI
+                generate an intelligent response.
+            </p>
+
+        </div>
+
+        <div class="demo-form">
+
+            <form method="POST">
+
+                <label for="customer_name">
+                    Your Name
+                </label>
+
+                <input
+                    type="text"
+                    id="customer_name"
+                    name="customer_name"
+                    placeholder="Enter your name"
+                    required>
+
+
+
+                <label for="email">
+                    Email Address
+                </label>
+
+                <input
+                    type="email"
+                    id="email"
+                    name="email"
+                    placeholder="Enter your email"
+                    required>
+
+
+
+                <label for="company_id">
+                    Select Company
+                </label>
+
+                <select
+                    id="company_id"
+                    name="company_id"
+                    required>
+
+                    {% for company in companies %}
+
+                    <option value="{{ company }}">
+                        {{ company }}
+                    </option>
+
+                    {% endfor %}
+
+                </select>
+
+
+
+                <label for="message">
+                    Customer Message
+                </label>
+
+                <textarea
+                    id="message"
+                    name="message"
+                    rows="7"
+                    placeholder="Type the customer's message here..."
+                    required></textarea>
+
+
+
+                <button type="submit">
+
+                    🚀 Generate AI Reply
+
+                </button>
+
+            </form>
+
+        </div>
+
+    </div>
+
+
+    <!-- RIGHT SIDE -->
+
+    <div class="right-panel">
+
+        <h2>🤖 Live AI Preview</h2>
+
+        <div class="preview-card">
+
+            <h3>👤 Customer Message</h3>
+
+            <p>
+                I'd like a refund for my damaged order.
+            </p>
+
+        </div>
+
+        <div class="preview-card">
+
+            <h3>🧠 AI Analysis</h3>
+
+            <p>✅ Detects customer intent</p>
+
+            <p>😊 Analyzes sentiment</p>
+
+            <p>🔥 Assigns ticket priority</p>
+
+            <p>👤 Waits for human approval</p>
+
+            <p>📧 Sends professional reply</p>
+
+            <p>🧠 Saves approved learning</p>
+
+        </div>
+
+    </div>
+
+</div>
+
+</body>
+
+</html>

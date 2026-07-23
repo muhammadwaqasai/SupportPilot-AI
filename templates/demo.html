@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+<title>
+SupportPilot AI Demo
+</title>
+
+<link rel="stylesheet" href="/static/style.css">
+
+</head>
+
+
+<body>
+
+
+<div class="demo-container">
+
+
+    <h1>
+        🤖 SupportPilot AI Demo
+    </h1>
+
+
+    <p>
+        Test how AI transforms customer messages into professional replies.
+    </p>
+
+
+
+    <div class="chat-preview">
+
+
+        <div class="customer-box">
+
+            <h3>
+                👤 Customer Message
+            </h3>
+
+            <p>
+                "I want to request a refund for my order."
+            </p>
+
+        </div>
+
+
+
+        <div class="ai-box">
+
+            <h3>
+                🤖 AI Generated Reply
+            </h3>
+
+            <p>
+                "Hello, we received your refund request.
+                Our team will review it and assist you shortly."
+            </p>
+
+        </div>
+
+
+
+        <div class="status-box">
+
+            <span>
+                ✅ Human Approved
+            </span>
+
+            <span>
+                🧠 Learning Saved
+            </span>
+
+        </div>
+
+
+    </div>
+
+
+
+    <form action="/" method="POST">
+
+
+        <input 
+        type="text"
+        name="name"
+        placeholder="Your Name"
+        required>
+
+
+        <input 
+        type="email"
+        name="email"
+        placeholder="Your Email"
+        required>
+
+
+        <textarea
+        name="message"
+        placeholder="Enter customer message"
+        required></textarea>
+
+
+        <button type="submit">
+            Generate AI Reply
+        </button>
+
+
+    </form>
+
+
+</div>
+
+
+</body>
+
+</html>

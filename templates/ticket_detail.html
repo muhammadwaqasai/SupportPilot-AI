@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+<title>AI Ticket Analysis</title>
+
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+</head>
+
+
+<body>
+
+
+<div class="container">
+
+
+<h1>🤖 AI Ticket Analysis</h1>
+
+
+<div class="card">
+
+
+<h2>Customer Information</h2>
+
+<p><b>Name:</b> {{ customer.customer_name }}</p>
+
+<p><b>Email:</b> {{ customer.email }}</p>
+
+<p><b>Message:</b></p>
+
+<p>{{ customer.message }}</p>
+
+
+</div>
+
+
+
+
+
+<div class="card">
+
+
+<h2>AI Analysis</h2>
+
+
+<p>
+<b>Intent:</b>
+{{ customer.intent }}
+</p>
+
+
+<p>
+<b>Department:</b>
+{{ customer.department }}
+</p>
+
+
+
+<p>
+<b>Priority:</b>
+{{ customer.priority }}
+</p>
+
+
+
+<p>
+<b>Sentiment:</b>
+{{ customer.sentiment }}
+</p>
+
+
+
+<p>
+<b>Risk Level:</b>
+{{ customer.risk_level }}
+</p>
+
+
+
+<p>
+<b>Escalation:</b>
+{{ customer.escalation }}
+</p>
+
+
+
+<p>
+<b>AI Confidence:</b>
+{{ customer.confidence_score }}%
+</p>
+
+
+</div>
+
+
+
+
+
+<div class="card">
+
+
+<h2>AI Response</h2>
+
+
+<p>
+
+{{ customer.ai_reply }}
+
+</p>
+
+
+</div>
+
+
+
+
+
+
+<div class="card">
+
+
+<h2>Recommended Action</h2>
+
+
+<p>
+
+{{ customer.recommended_action }}
+
+</p>
+
+
+</div>
+
+
+
+
+
+<div class="card">
+
+
+<h2>AI Summary</h2>
+
+
+<p>
+
+{{ customer.summary }}
+
+</p>
+
+
+</div>
+
+
+
+
+
+<br>
+
+
+<a href="/admin">
+
+⬅ Back to Dashboard
+
+</a>
+
+
+
+</div>
+
+
+</body>
+
+</html>

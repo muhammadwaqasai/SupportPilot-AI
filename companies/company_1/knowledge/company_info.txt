@@ -1,0 +1,16 @@
+Company Name: Smart Shop
+
+Products:
+We sell electronics and accessories.
+
+Delivery:
+Delivery takes 3 to 5 working days.
+
+Payment:
+We accept cash on delivery and online payments.
+
+Return Policy:
+Customers can return products within 30 days if the product is unused.
+
+Support:
+Customer support is available from Monday to Saturday, 9 AM to 6 PM.
