@@ -14,9 +14,11 @@ def connect_database():
 
     connection = mysql.connector.connect(
         host=DB_HOST,
+        port=DB_PORT,
         user=DB_USER,
         password=DB_PASSWORD,
-        database=DB_NAME
+        database=DB_NAME,
+        ssl_disabled=False
     )
 
     return connection
