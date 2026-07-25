@@ -2,17 +2,27 @@ import chromadb
 from rag.embeddings import create_embedding
 
 
-# Create ChromaDB client
+client = None
 
-client = chromadb.PersistentClient(
-    path="chroma_db"
-)
+
+def get_chroma_client():
+
+    global client
+
+    if client is None:
+        client = chromadb.PersistentClient(
+            path="chroma_db"
+        )
+
+    return client
 
 
 
 def get_collection(company_id):
 
-    return client.get_or_create_collection(
+    chroma_client = get_chroma_client()
+
+    return chroma_client.get_or_create_collection(
         name=f"{company_id}_knowledge"
     )
 
