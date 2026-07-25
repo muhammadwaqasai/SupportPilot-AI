@@ -63,6 +63,9 @@ def landing():
     return render_template(
         "landing.html"
     )
+@app.route("/favicon.ico")
+def favicon():
+    return "", 204
 @app.route("/demo", methods=["GET", "POST"])
 def home():
 
