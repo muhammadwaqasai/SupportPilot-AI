@@ -33,6 +33,13 @@ from services.learning_analytics_service import generate_learning_analytics
 
 
 app = Flask(__name__)
+import traceback
+
+@app.errorhandler(Exception)
+def handle_error(e):
+    print("ERROR:", e)
+    traceback.print_exc()
+    return "Internal Server Error", 500
 app.secret_key = SECRET_KEY
 
 
