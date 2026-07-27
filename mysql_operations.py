@@ -552,3 +552,173 @@ def save_learning_example(
     connection.commit()
 
     cursor.close()   
+   # ---------------- BUSINESS ADVISOR ----------------
+
+def get_business_statistics(connection, company_id):
+
+    cursor = connection.cursor(dictionary=True)
+
+
+    # Total tickets
+    cursor.execute(
+        """
+        SELECT COUNT(*) AS total
+        FROM customers
+        WHERE company_id = %s
+        """,
+        (company_id,)
+    )
+
+    total = cursor.fetchone()["total"]
+
+
+    # Sentiment analysis
+    cursor.execute(
+        """
+        SELECT 
+            sentiment,
+            COUNT(*) AS count
+        FROM customers
+        WHERE company_id = %s
+        GROUP BY sentiment
+        """,
+        (company_id,)
+    )
+
+    sentiment_rows = cursor.fetchall()
+
+    sentiment = {
+        "positive": 0,
+        "neutral": 0,
+        "negative": 0
+    }
+
+    for row in sentiment_rows:
+        if row["sentiment"]:
+            sentiment[row["sentiment"].lower()] = row["count"]
+
+
+    # Priority analysis
+    cursor.execute(
+        """
+        SELECT 
+            priority,
+            COUNT(*) AS count
+        FROM customers
+        WHERE company_id = %s
+        GROUP BY priority
+        """,
+        (company_id,)
+    )
+
+    priority_rows = cursor.fetchall()
+
+    priority = {}
+
+    for row in priority_rows:
+        priority[row["priority"]] = row["count"]
+
+
+    # Status analysis
+    cursor.execute(
+        """
+        SELECT 
+            status,
+            COUNT(*) AS count
+        FROM customers
+        WHERE company_id = %s
+        GROUP BY status
+        """,
+        (company_id,)
+    )
+
+    status_rows = cursor.fetchall()
+
+    status = {}
+
+    for row in status_rows:
+        status[row["status"]] = row["count"]
+
+
+    # Escalation count
+    cursor.execute(
+        """
+        SELECT COUNT(*) AS escalated
+        FROM customers
+        WHERE company_id = %s
+        AND escalation = 'yes'
+        """,
+        (company_id,)
+    )
+
+    escalated = cursor.fetchone()["escalated"]
+
+
+    cursor.close()
+
+
+    return {
+        "total": total,
+        "sentiment": sentiment,
+        "priority": priority,
+        "status": status,
+        "escalated": escalated
+    } 
+    # ---------------- BUSINESS ADVISOR ----------------
+
+def get_recent_customer_insights(connection, company_id):
+
+    cursor = connection.cursor(dictionary=True)
+
+    cursor.execute(
+        """
+        SELECT
+            customer_name,
+            summary,
+            intent,
+            department,
+            sentiment,
+            priority,
+            escalation
+        FROM customers
+        WHERE company_id=%s
+        ORDER BY id DESC
+        LIMIT 20
+        """,
+        (company_id,)
+    )
+
+    rows = cursor.fetchall()
+
+    cursor.close()
+
+    return rows
+# ---------------- TREND ANALYSIS ----------------
+
+def get_ticket_trends(connection, company_id):
+
+    cursor = connection.cursor(dictionary=True)
+
+    query = """
+    SELECT
+        DATE(created_at) AS date,
+        sentiment,
+        priority,
+        escalation,
+        status
+    FROM customers
+    WHERE company_id=%s
+    AND created_at >= DATE_SUB(NOW(), INTERVAL 30 DAY)
+    ORDER BY created_at ASC
+    """
+
+    cursor.execute(
+        query,
+        (company_id,)
+    )
+
+    data = cursor.fetchall()
+
+    cursor.close()
+
+    return data

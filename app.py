@@ -3,6 +3,12 @@ from flask_login import (
     login_required,
     current_user
 )
+from services.report_service import generate_business_report
+from services.root_cause_service import analyze_root_causes
+from services.trend_service import analyze_trends
+from mysql_operations import get_recent_customer_insights
+from services.business_ai_service import generate_ai_business_report
+from services.business_advisor_service import generate_business_advice
 
 from auth import (
     auth,
@@ -16,12 +22,14 @@ from config import (
 
 from mysql_operations import (
     connect_database,
+    get_business_statistics,
     get_all_customers,
     search_customers,
     delete_customer,
     edit_customer,
     approve_ticket,
-    save_learning_example
+    save_learning_example,
+    get_ticket_trends
 )
 
 from services.customer_service import process_customer
@@ -820,8 +828,112 @@ def reject_learning(id):
 
     return redirect("/ai-learning")
 
+@app.route("/business_advisor")
+@login_required
+def business_advisor():
+
+    connection = connect_database()
+
+    stats = get_business_statistics(
+        connection,
+        current_user.company_id
+    )
 
 
+    tickets = get_recent_customer_insights(
+        connection,
+        current_user.company_id
+    )
+
+
+    trend_data = get_ticket_trends(
+        connection,
+        current_user.company_id
+    )
+
+
+    connection.close()
+
+
+    # Old rule-based advice
+    advice = generate_business_advice(stats)
+
+
+    # AI Executive Report
+    ai_report = generate_ai_business_report(
+        stats
+    )
+
+
+    # AI Root Cause Analysis
+    root_cause = analyze_root_causes(
+        tickets
+    )
+
+
+    # AI Trend Analysis
+    trend_report = analyze_trends(
+        trend_data
+    )
+
+
+    return render_template(
+        "business_advisor.html",
+        stats=stats,
+        advice=advice,
+        ai_report=ai_report,
+        root_cause=root_cause,
+        trend_report=trend_report
+    )
+    # ---------------- BUSINESS REPORT PDF ----------------
+
+@app.route("/generate_report")
+@login_required
+def generate_report():
+
+    connection = connect_database()
+
+    stats = get_business_statistics(
+        connection,
+        current_user.company_id
+    )
+
+    tickets = get_recent_customer_insights(
+        connection,
+        current_user.company_id
+    )
+
+    trend_data = get_ticket_trends(
+        connection,
+        current_user.company_id
+    )
+
+    connection.close()
+
+    ai_report = generate_ai_business_report(
+        stats
+    )
+
+    root_cause = analyze_root_causes(
+        tickets
+    )
+
+    trend_report = analyze_trends(
+        trend_data
+    )
+
+    # Save directly into the static folder
+    filename = "static/business_report.pdf"
+
+    generate_business_report(
+        filename,
+        stats,
+        ai_report,
+        root_cause,
+        trend_report
+    )
+
+    return redirect("/static/business_report.pdf")
 
 
 # ---------------- RUN APP ----------------

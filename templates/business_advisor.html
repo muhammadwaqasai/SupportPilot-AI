@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+<title>AI Business Advisor</title>
+
+<style>
+
+body{
+    font-family: Arial, sans-serif;
+    background:#f4f7fb;
+    padding:30px;
+}
+
+
+.card{
+
+    background:white;
+    padding:25px;
+    margin:15px;
+    border-radius:15px;
+    box-shadow:0 5px 15px #ddd;
+
+}
+
+
+.grid{
+
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+    gap:20px;
+
+}
+
+
+h1{
+    color:#1f2937;
+}
+
+
+.number{
+
+    font-size:35px;
+    font-weight:bold;
+
+}
+
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<h1>📊 AI Business Advisor</h1>
+<a href="/generate_report">
+
+<button>
+📄 Generate Business Report
+</button>
+
+</a>
+
+
+<div class="grid">
+
+
+<div class="card">
+
+<h3>🎫 Total Tickets</h3>
+
+<div class="number">
+
+{{stats.total}}
+
+</div>
+
+</div>
+
+
+
+<div class="card">
+
+<h3>😊 Positive</h3>
+
+<div class="number">
+
+{{stats.sentiment.positive}}
+
+</div>
+
+</div>
+
+
+
+<div class="card">
+
+<h3>😐 Neutral</h3>
+
+<div class="number">
+
+{{stats.sentiment.neutral}}
+
+</div>
+
+</div>
+
+
+
+<div class="card">
+
+<h3>😞 Negative</h3>
+
+<div class="number">
+
+{{stats.sentiment.negative}}
+
+</div>
+
+</div>
+
+
+
+<div class="card">
+
+<h3>🚨 Escalated</h3>
+
+<div class="number">
+
+{{stats.escalated}}
+
+</div>
+
+</div>
+
+
+</div>
+
+
+<div class="card">
+
+<h2>🔥 Priority</h2>
+
+
+<p>
+High:
+{{stats.priority.High}}
+</p>
+
+
+<p>
+Medium:
+{{stats.priority.Medium}}
+</p>
+
+
+<p>
+Low:
+{{stats.priority.Low}}
+</p>
+
+
+</div>
+
+
+
+<div class="card">
+
+<h2>📌 Status</h2>
+
+
+{% for key,value in stats.status.items() %}
+
+<p>
+{{key}} : {{value}}
+</p>
+
+
+{% endfor %}
+
+
+</div>
+
+
+</body>
+
+</html>
+<div class="card">
+
+    
+<h2>🧠 AI Executive Report</h2>
+
+<h3>Business Health Score</h3>
+
+<h1>{{ ai_report.health_score }}/100</h1>
+
+<h3>{{ ai_report.business_health }}</h3>
+
+<p>
+{{ ai_report.summary }}
+</p>
+
+<hr>
+
+<h3>✅ Strengths</h3>
+
+<ul>
+
+{% for item in ai_report.strengths %}
+
+<li>{{ item }}</li>
+
+{% endfor %}
+
+</ul>
+
+<hr>
+
+<h3>⚠ Weaknesses</h3>
+
+<ul>
+
+{% for item in ai_report.weaknesses %}
+
+<li>{{ item }}</li>
+
+{% endfor %}
+
+</ul>
+
+<hr>
+
+<h3>🚀 Recommendations</h3>
+
+<ul>
+
+{% for item in ai_report.recommendations %}
+
+<li>{{ item }}</li>
+
+{% endfor %}
+
+</ul>
+
+<hr>
+
+<h3>🔥 Urgent Action</h3>
+
+<p>
+
+<b>{{ ai_report.urgent_action }}</b>
+
+</p>
+
+</div>
+<div class="card">
+
+<h2>🔍 AI Root Cause Analysis</h2>
+
+
+<h3>🚨 Main Problems</h3>
+
+<ul>
+{% for item in root_cause.main_problems %}
+<li>{{ item }}</li>
+{% endfor %}
+</ul>
+
+
+<h3>💬 Common Complaints</h3>
+
+<ul>
+{% for item in root_cause.common_complaints %}
+<li>{{ item }}</li>
+{% endfor %}
+</ul>
+
+
+<h3>🏢 Affected Departments</h3>
+
+<ul>
+{% for item in root_cause.affected_departments %}
+<li>{{ item }}</li>
+{% endfor %}
+</ul>
+
+
+<h3>⚠ Business Risks</h3>
+
+<ul>
+{% for item in root_cause.business_risks %}
+<li>{{ item }}</li>
+{% endfor %}
+</ul>
+
+
+<h3>🚀 Recommended Actions</h3>
+
+<ul>
+{% for item in root_cause.recommended_actions %}
+<li>{{ item }}</li>
+{% endfor %}
+</ul>
+
+
+</div>
+<div class="card">
+
+<h2>📈 AI Trend Analysis</h2>
+
+
+<h3>📊 Trend Summary</h3>
+
+<p>
+{{ trend_report.trend_summary }}
+</p>
+
+
+<h3>😊 Sentiment Change</h3>
+
+<p>
+{{ trend_report.sentiment_change }}
+</p>
+
+
+<h3>🔍 Main Causes</h3>
+
+<ul>
+
+{% for cause in trend_report.main_causes %}
+
+<li>{{ cause }}</li>
+
+{% endfor %}
+
+</ul>
+
+
+
+<h3>⚠ Business Risk</h3>
+
+<p>
+{{ trend_report.business_risk }}
+</p>
+
+
+
+<h3>🚀 Recommended Actions</h3>
+
+<ul>
+
+{% for action in trend_report.recommended_actions %}
+
+<li>{{ action }}</li>
+
+{% endfor %}
+
+</ul>
+
+
+</div>
