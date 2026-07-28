@@ -910,20 +910,42 @@ def generate_report():
 
     connection.close()
 
-    ai_report = generate_ai_business_report(
-        stats
-    )
 
-    root_cause = analyze_root_causes(
-        tickets
-    )
+    try:
 
-    trend_report = analyze_trends(
-        trend_data
-    )
+        ai_report = generate_ai_business_report(
+            stats
+        )
 
-    # Save directly into the static folder
+
+        root_cause = analyze_root_causes(
+            tickets[:10]
+        )
+
+
+        trend_report = analyze_trends(
+            trend_data[:10]
+        )
+
+
+    except Exception as e:
+
+        ai_report = {
+            "summary": "AI report unavailable",
+            "details": str(e)
+        }
+
+        root_cause = {
+            "causes": []
+        }
+
+        trend_report = {
+            "trend_summary": "Trend analysis unavailable"
+        }
+
+
     filename = "static/business_report.pdf"
+
 
     generate_business_report(
         filename,
@@ -933,8 +955,8 @@ def generate_report():
         trend_report
     )
 
-    return redirect("/static/business_report.pdf")
 
+    return redirect("/static/business_report.pdf")
 @app.route("/demo-company")
 def demo_company():
 
