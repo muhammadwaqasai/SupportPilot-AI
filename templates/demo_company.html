@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <title>TechNova Electronics Demo</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>
+        🚀 TechNova Electronics
+    </h1>
+
+    <p>
+        AI Customer Support Demo powered by SupportPilot AI
+    </p>
+
+    <!-- Dashboard Cards -->
+
+    <div class="cards">
+
+        <div class="card">
+            <h3>👥 Total Tickets</h3>
+            <h2>{{ stats.total }}</h2>
+        </div>
+
+        <div class="card">
+            <h3>🔥 High Priority</h3>
+            <h2>{{ stats.priority.get("High", 0) }}</h2>
+        </div>
+
+        <div class="card">
+            <h3>😠 Negative Sentiment</h3>
+            <h2>{{ stats.sentiment.negative }}</h2>
+        </div>
+
+        <div class="card">
+            <h3>🚨 Escalated</h3>
+            <h2>{{ stats.escalated }}</h2>
+        </div>
+
+    </div>
+
+    <h2>
+        Customer Conversations
+    </h2>
+
+    <table>
+
+        <tr>
+            <th>Customer</th>
+            <th>Message</th>
+            <th>AI Reply</th>
+            <th>Priority</th>
+            <th>Sentiment</th>
+        </tr>
+
+        {% for customer in customers %}
+
+        <tr>
+
+            <td>{{ customer.customer_name }}</td>
+
+            <td>{{ customer.message }}</td>
+
+            <td>{{ customer.ai_reply }}</td>
+
+            <td>{{ customer.priority }}</td>
+
+            <td>{{ customer.sentiment }}</td>
+
+        </tr>
+
+        {% endfor %}
+
+    </table>
+
+</div>
+
+</body>
+
+</html>

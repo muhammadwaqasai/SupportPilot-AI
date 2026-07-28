@@ -935,6 +935,32 @@ def generate_report():
 
     return redirect("/static/business_report.pdf")
 
+@app.route("/demo-company")
+def demo_company():
+
+    connection = connect_database()
+
+    demo_company_id =  "company_demo"   # temporary demo company id
+
+    stats = get_business_statistics(
+        connection,
+        demo_company_id
+    )
+
+    customers = get_all_customers(
+        connection,
+        demo_company_id
+    )
+
+    connection.close()
+
+
+    return render_template(
+        "demo_company.html",
+        stats=stats,
+        customers=customers
+    )
+
 
 # ---------------- RUN APP ----------------
 
